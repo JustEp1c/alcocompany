@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+
+{% block body %}
+    <h1 class="h3 mb-3 fw-normal">Контактное лицо</h1>
+    {% for el in info %}
+        <div class="card">
+  <div class="card-header">
+    Контакт №: {{  el[0] }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ el[3] }} {{ el[4] }} {{ el[5] }}</h5>
+      <p class="card-text">Телефон: {{ el[1] }}</p>
+      <p class="card-text">Эл.почта: {{ el[2] }}</p>
+      {% if role_id == 1 %}
+      <p class="card-text">Логин: {{ el[6] }}</p>
+      <div>
+          <a href="/clients/{{ el[0] }}/delete" class="btn btn-danger">Удалить</a>
+      </div>
+      {% endif %}
+  </div>
+</div>
+    {% endfor %}
+{% endblock %}

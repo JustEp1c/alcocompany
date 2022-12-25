@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Тип товара</title>
+</head>
+
+<body class="text-center">
+<main class="form-signin">
+  <form method="post">
+    <h1 class="h3 mb-3 fw-normal">Выберите или добавьте тип товара</h1>
+      <div class="form-floating">
+      <input type="text" class="form-control" id="floatingInput" list="p_types" name="p_type" placeholder="p_type" maxlength="50" required>
+      <label for="floatingInput">Тип товара</label>
+          <datalist id="p_types">
+              {% for type in list_of_types%}
+                <option value="{{ type[0] }}">{{ type[0] }}</option>
+            {% endfor %}
+          </datalist>
+    </div>
+      <div>
+          {% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+         {{ message }}
+      {% endfor %}
+   {% endif %}
+{% endwith %}
+      </div>
+    <div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Выбрать</button>
+    </div>
+  </form>
+</main>
+</body>
+</html>

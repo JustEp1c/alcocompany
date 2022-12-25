@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+
+{% block body %}
+    <h1 class="h3 mb-3 fw-normal">Клиенты(Юр.лица)</h1>
+    {% for org in orgs %}
+    <div class="card">
+  <div class="card-header">
+    Организация №: {{ org[0] }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ org[1] }}</h5>
+      <p class="card-text">ИНН: {{ org[2] }}</p>
+      <p class="card-text">ОГРН: {{ org[3] }}</p>
+      <p class="card-text">КПП: {{ org[4] }}</p>
+      <p class="card-text">Юр.адрес: {{ org[5] }}</p>
+      <p class="card-text">Факт.адрес: {{ org[6] }}</p>
+      <div>
+          <a href="/clients/{{ org[0] }}" class="btn btn-primary">Подробнее</a>
+      </div>
+  </div>
+</div>
+    {% endfor %}
+{% endblock %}

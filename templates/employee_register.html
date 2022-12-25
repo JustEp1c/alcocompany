@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Добавить сотрудника</title>
+</head>
+
+<body class="text-center">
+<main class="form-signin">
+  <form method="post">
+    <h1 class="h3 mb-3 fw-normal">Новый сотрудник</h1>
+      <div class="form-floating">
+      <input type="number" class="form-control" id="floatingInput" placeholder="123" min="1" required name="service_number">
+      <label for="floatingInput">Service number*</label>
+    </div>
+      <div class="form-floating">
+      <input type="number" class="form-control" id="floatingInput" name="passport_number" placeholder="4413474662" required min="1000000000" max="9999999999" pattern="/[^a-zа-яё\s]/gi">
+      <label for="floatingInput">Passport number*</label>
+    </div>
+      <div class="form-floating">
+      <input type="text" class="form-control" id="floatingInput" name="name" placeholder="Name" maxlength="50" required>
+      <label for="floatingInput">Name*</label>
+    </div>
+      <div class="form-floating">
+      <input type="text" class="form-control" id="floatingInput" name="surname" placeholder="Surname" maxlength="50" required>
+      <label for="floatingInput">Surname*</label>
+    </div>
+      <div class="form-floating">
+      <input type="text" class="form-control" id="floatingInput" name="middle_name" placeholder="Surname" maxlength="50" >
+      <label for="floatingInput">Middle name</label>
+    </div>
+      <div class="form-floating">
+      <input type="number" class="form-control" id="floatingInput" name="phone_number" placeholder="Surname" min="89000000000" max="89999999999" required>
+      <label for="floatingInput">Phone number*</label>
+    </div>
+      <div class="form-floating">
+      <input type="email" class="form-control" id="floatingInput" name="email" placeholder="Surname" required>
+      <label for="floatingInput">E-mail*</label>
+    </div>
+      <div class="form-floating">
+      <input type="number" class="form-control" id="floatingInput" name="post_id" placeholder="Surname" min="1" max="2" required>
+      <label for="floatingInput">Post id*</label>
+    </div>
+    <div class="form-floating">
+      <input type="text" class="form-control" id="floatingInput" name="login" minlength="8" maxlength="30" placeholder="Login" required>
+      <label for="floatingInput">Login*</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="floatingPassword" minlength="10" maxlength="40" name="password" placeholder="Password" required>
+      <label for="floatingPassword">Password*</label>
+    </div>
+      <div>
+          {% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+         {{ message }}
+      {% endfor %}
+   {% endif %}
+{% endwith %}
+      </div>
+    <div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Добавить</button>
+    </div>
+  </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{% extends 'index.html' %}
+
+{% block body %}
+    <h1 class="h3 mb-3 fw-normal">Единицы товаров</h1>
+    {% for el in info %}
+    <div class="card">
+  <div class="card-header">
+    Код: {{ el[1] }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ el[0] }}</h5>
+      <p class="card-text">Объем: {{ el[3] }}</p>
+      <p class="card-text">Цена: {{ el[4] }}</p>
+      <p class="card-text">Номер заказа: {{ el[2] }}</p>
+  </div>
+</div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+
+{% block body %}
+    <h1 class="h3 mb-3 fw-normal">Товары</h1>
+    {% for product in products %}
+    <div class="card">
+  <div class="card-header">
+    Товар №: {{ product[0] }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ product[2] }}</h5>
+      <p class="card-text">Тип: {{ product[1] }}</p>
+      <p class="card-text">Крепкость: {{ product[3] }}</p>
+      <p class="card-text">Производитель: {{ product[4] }}</p>
+      <div>
+          <a href="/products/{{ product[0] }}" class="btn btn-primary">Подробнее</a>
+      </div>
+  </div>
+</div>
+    {% endfor %}
+{% endblock %}

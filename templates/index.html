@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Alcocompany</title>
+</head>
+<div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <a href="/main" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+        <span class="fs-4">Alcocompany</span>
+      </a>
+      <ul class="nav nav-pills">
+      {% if role_id == 1 %}
+        <li class="nav-item"><a href="/add_employee" class="nav-link active" aria-current="page">Добавить сотрудника</a></li>
+      {% endif %}
+      {% if role_id == 3 %}
+        <li class="nav-item"><a href="/order_choose_type" class="nav-link active" aria-current="page">Добавить заказ</a></li>
+      {% endif %}
+      {% if role_id == 1 or role_id == 2 %}
+        <li class="nav-item"><a href="/employees" class="nav-link">Список сотрудников</a></li>
+      {% endif %}
+        <li class="nav-item"><a href="/clients" class="nav-link">Клиенты</a></li>
+      <li class="nav-item"><a href="/products" class="nav-link">Товары</a></li>
+      {% if role_id == 2 %}
+        <li class="nav-item"><a href="/choose_p_type" class="nav-link">Добавить товар</a></li>
+      {% endif %}
+        <li class="nav-item"><a href="/logout" class="nav-link">Выйти</a></li>
+      </ul>
+    </header>
+  </div>
+<body>
+<div class="container">
+{% block body %}
+    <h1 class="h3 mb-3 fw-normal">Заказы</h1>
+    {% for order in orders %}
+    <div class="card">
+  <div class="card-header">
+    Заказ №: {{ order[0] }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ order[6] }}</h5>
+      <p class="card-text">Дата создания: {{ order[1] }}</p>
+      <p class="card-text">Дата отправления: {{ order[2] }}</p>
+      <p class="card-text">Дата прибытия: {{ order[3] }}</p>
+      <p class="card-text">Комментарий: {{ order[5] }}</p>
+      <p class="card-text">Дата оплаты: {{ order[4] }}</p>
+      <p class="card-text">Статус оплаты: {{ order[7] }}</p>
+      <p class="card-text">Номер к.лица: {{ order[8] }}</p>
+      {% if role_id == 2 %}
+          {% if order[6] == 'На обработке' %}
+      <div>
+          <a href="/order/{{ order[0] }}/departure" class="btn btn-primary">Отправить заказ</a>
+      </div>
+          {% endif %}
+      {% endif %}
+  {% if role_id == 3 %}
+      {% if order[6] == 'В пути'%}
+      <div>
+          <a href="/order/{{ order[0] }}/arrived" class="btn btn-success">Заказ доставлен</a>
+      </div>
+          {% endif %}
+      {% if order[7] == 'Не оплачен' or order[6] == 'В пути'%}
+      <div>
+          <a href="/order/{{ order[0] }}/payed" class="btn btn-warning">Оплатить заказ</a>
+      </div>
+          {% endif %}
+  {% endif %}
+  </div>
+</div>
+    {% endfor %}
+{% endblock %}
+</div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+
+{% block body %}
+    <h1 class="h3 mb-3 fw-normal">Сотрудники</h1>
+    {% for employee in employees %}
+    <div class="card">
+  <div class="card-header">
+    Сотрудник №: {{ employee[0] }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ employee[1] }} {{ employee[2] }}</h5>
+      <div>
+          <strong class="card-text">Должность: {{ employee[3] }}</strong>
+      </div>
+      <div>
+          <a href="/employees/{{ employee[0] }}" class="btn btn-primary">Подробнее</a>
+      </div>
+  </div>
+</div>
+    {% endfor %}
+{% endblock %}
