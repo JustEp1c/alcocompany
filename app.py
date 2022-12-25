@@ -4,14 +4,22 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask(__name__)
-app.secret_key = "cjjdR7lRDqqkklQzEUMH"
-app.config['CONN_STRING'] = f"host='localhost' dbname='alcocompany' user='postgres' password='carpe_diem1965'"
+
+# !!! Before starting an application uncomment secret key string and database connection string !!!
+# !!! Add your secret key, database superuser name and password !!!
+
+# Your app's secret key:
+# app.secret_key = " "
+
+# Your database URI:
+# app.config['DB_URI'] = f"host='localhost' dbname='alcocompany' user=' ' password=' '"
 
 
 @app.route('/', methods=['GET', 'POST'])
 def render_auth(error=None):
     close_db(error)
-    app.config['CONN_STRING'] = f"host='localhost' dbname='alcocompany' user='postgres' password='carpe_diem1965'"
+    # Your database URI:
+    # app.config['DB_URI'] = f"host='localhost' dbname='alcocompany' user=' ' password=' '"
     if request.method == 'POST':
         login = request.form.get('login')
         password = request.form.get('password')
@@ -25,7 +33,7 @@ def render_auth(error=None):
         conn.commit()
         cur.close()
         if check_password_hash(hash, password):
-            app.config['CONN_STRING'] = f"host='localhost' dbname='alcocompany' user='{login}' password='{password}'"
+            app.config['DB_URI'] = f"host='localhost' dbname='alcocompany' user='{login}' password='{password}'"
             conn = get_db()
             cur = conn.cursor()
             cur.execute("SELECT token FROM users WHERE login = %s;", (login,))
@@ -409,7 +417,7 @@ def client_registration():
         conn.commit()
         cur.close()
 
-        app.config['CONN_STRING'] = f"host='localhost' dbname='alcocompany' user='{login}' password='{password}'"
+        app.config['DB_URI'] = f"host='localhost' dbname='alcocompany' user='{login}' password='{password}'"
         conn = get_db()
         cur = conn.cursor()
         cur.execute("SELECT token FROM users WHERE login = %s;", (login,))
@@ -460,7 +468,7 @@ def org_registration():
             conn.commit()
             cur.close()
 
-            app.config['CONN_STRING'] = f"host='localhost' dbname='alcocompany' user='{login}' password='{password}'"
+            app.config['DB_URI'] = f"host='localhost' dbname='alcocompany' user='{login}' password='{password}'"
             conn = get_db()
             cur = conn.cursor()
             cur.execute("SELECT token FROM users WHERE login = %s;", (login,))
@@ -508,7 +516,7 @@ def get_db():
 
 
 def connect_db():
-    conn = psycopg2.connect(app.config['CONN_STRING'])
+    conn = psycopg2.connect(app.config['DB_URI'])
     return conn
 
 
