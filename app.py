@@ -9,17 +9,17 @@ app = Flask(__name__)
 # !!! Add your secret key, database superuser name and password !!!
 
 # Your app's secret key:
-# app.secret_key = " "
+app.secret_key = "oifjw984tug"
 
 # Your database URI:
-# app.config['DB_URI'] = f"host='localhost' dbname='alcocompany' user=' ' password=' '"
+app.config['DB_URI'] = f"host='localhost' dbname='alcocompany' user='postgres' password='carpe_diem1965'"
 
 
 @app.route('/', methods=['GET', 'POST'])
 def render_auth(error=None):
     close_db(error)
     # Your database URI:
-    # app.config['DB_URI'] = f"host='localhost' dbname='alcocompany' user=' ' password=' '"
+    app.config['DB_URI'] = f"host='localhost' dbname='alcocompany' user='postgres' password='carpe_diem1965'"
     if request.method == 'POST':
         login = request.form.get('login')
         password = request.form.get('password')
@@ -284,8 +284,6 @@ def get_order_p_name():
 
     if request.method == 'POST':
         p_type = session['p_type_order']
-        del session['p_type_order']
-        del session['p_type_id_order']
         p_name = request.form.get('p_name')
 
         conn = get_db()
@@ -317,7 +315,6 @@ def get_order_p_amount():
         conn = get_db()
         cur = conn.cursor()
         cur.execute("CALL add_order(%s, %s, %s);", (note, client_amount, session['p_id']))
-        del session['p_id']
         conn.commit()
         cur.close()
         return redirect(url_for('main'))
@@ -358,18 +355,18 @@ def get_p_type():
 @app.route('/new_product', methods=['GET', 'POST'])
 def new_product():
     list_of_names = []
+    print("new product")
+    print(session['p_type_id'])
     if session['p_type_id'] != 0:
         conn = get_db()
         cur = conn.cursor()
         cur.execute("SELECT product_name FROM product WHERE type_id = %s;", (session['p_type_id'],))
-        del session['p_type_id']
         list_of_names = cur.fetchall()
         conn.commit()
         cur.close()
 
     if request.method == 'POST':
         p_type = session['p_type']
-        del session['p_type']
         p_name = request.form.get('p_name')
         manuf = request.form.get('manuf')
         strength = request.form.get('strength')
@@ -384,12 +381,14 @@ def new_product():
         print(price)
         print(amount)
 
-
-        conn = get_db()
-        cur = conn.cursor()
-        cur.execute("CALL add_products(%s, %s, %s, %s, %s, %s, %s);", (p_type, p_name, manuf, strength, volume, price, amount))
-        conn.commit()
-        cur.close()
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            cur.execute("CALL add_products(%s, %s, %s, %s, %s, %s, %s);", (p_type, p_name, manuf, strength, volume, price, amount))
+            conn.commit()
+            cur.close()
+        except:
+            flash("Такой товар уже есть")
         return redirect(url_for('get_products'))
     return render_template('new_product.html', list_of_names=list_of_names)
 
